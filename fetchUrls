@@ -1,0 +1,27 @@
+#!/bin/bash
+#
+# Grabs urls from a specified file and fetches them using curl to the location defined.
+# 
+# Assumptions:
+#
+# - Each url starts on a new line
+# - One url per line
+#
+# Example usage:
+#
+# . fetchUrls.sh <file-containing-urls> <target-folder>
+#
+baseFile="$1"
+targetLocation="$2"
+
+if [ -f $baseFile ] && [ -d $targetLocation ]
+then
+    fileList=`cat $baseFile`
+    for file in ${fileList}
+    do
+        ( cd $targetLocation > /dev/null ; curl -O -s "$file" ; ) 
+    done
+else
+    echo "Example usage:"
+    echo "fetchUrls <file-containing-urls> <target-folder>"
+fi
